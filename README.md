@@ -1,1 +1,1 @@
-"#django e ticaret projesi"
+"#django e ticaret projesi giris"
