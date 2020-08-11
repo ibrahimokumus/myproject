@@ -1,0 +1,10 @@
+{% extends 'homebase.html' %}
+{% block title %}index sayfasi{% endblock %}
+{% block keywords %}index sayfasi anahtar kelimeler{% endblock %}
+{% block description %}index sayfasi aciklama{% endblock %}
+{% block slider  %}
+    {% include "slider.html" %}
+{% endblock  %}
+{% block body %}
+    {% block content %}{% include "content.html" %} {% endblock %}
+{% endblock  %}
