@@ -1,3 +1,4 @@
+from ckeditor_uploader.fields import RichTextUploadingField
 from django.db import models
 
 # Create your models here.
@@ -50,22 +51,21 @@ class Book(models.Model):
     keywords = models.CharField(blank=True, max_length=255)
     description = models.CharField(blank=True, max_length=255)
     image = models.ImageField(blank=True, upload_to='images/')
-    detail = models.CharField(max_length=250)
+    detail = RichTextUploadingField(blank=True)
     slug = models.SlugField(null=False, unique=True)
     status = models.CharField(max_length=10, choices=STATUS)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     author = models.CharField(max_length=50)
     publishDate = models.CharField(max_length=50)
+    type = models.CharField(max_length=50)
+    hint = models.CharField(max_length=200)
 
     def __str__(self):
         return self.title
 
     def image_tag(self):
         return mark_safe('<img src="{}" height="50"/>'.format(self.image.url))
-
-
-
     image_tag.short_description = 'Image'
 
 class Images(models.Model):
