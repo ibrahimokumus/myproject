@@ -2,10 +2,16 @@
 {% block title %}index sayfasi{% endblock %}
 {% block keywords %}index sayfasi anahtar kelimeler{% endblock %}
 {% block description %}index sayfasi aciklama{% endblock %}
+
+
 {% block content %}
-    <div class="span12">
-        <div class="well">
-            {{ setting.aboutus|safe}}
+    <section class="contact-section spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    {{ setting.aboutus|safe}}
+                </div>
+            </div>
         </div>
-    </div>
+    </section>
 {% endblock %}

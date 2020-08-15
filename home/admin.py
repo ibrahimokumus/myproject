@@ -10,5 +10,4 @@ class ContactFormMessageAdmin(admin.ModelAdmin):
 
 
 admin.site.register(ContactFormMessage, ContactFormMessageAdmin)
-
 admin.site.register(Setting)

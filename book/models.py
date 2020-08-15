@@ -31,7 +31,7 @@ class Category(MPTTModel):
         while k is not None:
             full_path.append(k.title)
             k = k.parent
-        return ' / '.join(full_path[::-1])
+        return '->'.join(full_path[::-1])
 
     def image_tag(self):
         return mark_safe('<img src="{}" height="50"/>'.format(self.image.url))
@@ -56,10 +56,10 @@ class Book(models.Model):
     status = models.CharField(max_length=10, choices=STATUS)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    author = models.CharField(max_length=50)
+    author = models.CharField(blank=True, max_length=50)
     publishDate = models.CharField(max_length=50)
     type = models.CharField(max_length=50)
-    hint = models.CharField(max_length=200)
+    pageNumber = models.CharField(blank=True, max_length=4)
 
     def __str__(self):
         return self.title
