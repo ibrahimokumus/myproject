@@ -27,7 +27,7 @@
                         <h4 class="fw-title">Kategoriler</h4>
                         <ul class="filter-catagories">
                             {%  recursetree category%}
-                            <li><a href="#">{{ node.title }}</a></li>
+                            <li><a href="/category/{{ node.id }}/{{ node.slug }}">{{ node.title }}</a></li>
                          {% endrecursetree %}
                         </ul>
                     </div>
@@ -41,7 +41,7 @@
                                     <div class="pi-pic">
                                         <img  style="weight:350px; height:350px" src="{{ rs.image.url }}" alt="">
                                         <ul>
-                                            <li class="quick-view"><a href="#">Goruntule</a></li>
+                                            <li class="quick-view"><a href="/book/{{ rs.id }}/{{ rs.slug }}">Goruntule</a></li>
                                         </ul>
                                     </div>
                                     <div class="pi-text">

@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from book.models import Category, Book, Images
+from book.models import Category, Book, Images, Comment
 
 
 class BookImageInline(admin.TabularInline):
@@ -20,6 +20,12 @@ class BookAdmin(admin.ModelAdmin):
 class ImagesAdmin(admin.ModelAdmin):
     list_display = ['title', 'book', 'image_tag']
 
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ['subject', 'comment', 'book', 'user', 'status']
+    list_filter = ['status']
+
+
 admin.site.register(Category , CategoryAdmin)
 admin.site.register(Book, BookAdmin)
 admin.site.register(Images, ImagesAdmin)
+admin.site.register(Comment,CommentAdmin)

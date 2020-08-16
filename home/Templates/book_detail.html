@@ -1,0 +1,174 @@
+{% extends 'homebase.html' %}
+{% block title %}Detay Sayfasi{% endblock %}
+{% block keywords %}index sayfasi anahtar kelimeler{% endblock %}
+{% block description %}index sayfasi aciklama{% endblock %}
+
+{% load static %}
+{% load mptt_tags %}
+<!-- Header End -->
+{% block content %}
+    <!-- Breadcrumb Section Begin -->
+    <div class="breacrumb-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb-text product-more">
+                        <a href="./home.html"><i class="fa fa-home"></i> Home</a>
+                        <a href="./books">Kitaplar</a>
+                        <span>Detail</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb Section Begin -->
+
+    <!-- Product Shop Section Begin -->
+    <section class="product-shop spad page-details">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 ">
+                    <div class="filter-widget">
+                        <h4 class="fw-title">Kategoriler</h4>
+                        <ul class="filter-catagories">
+                            {%  recursetree category%}
+                                <li><a href="/category/{{ node.id }}/{{ node.slug }}">{{ node.title }}</a></li>
+                            {% endrecursetree %}
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-lg-9">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="product-pic-zoom">
+                                <img class="product-big-img" src="{{ books.image.url }}" alt="">
+                                <div class="zoom-icon">
+                                    <i class="fa fa-search-plus"></i>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="product-details">
+                                <div class="pd-title">
+                                    <span>{{ books.author}}</span>
+                                    <h3>{{ books.title }}</h3>
+
+                                </div>
+                                <div class="pd-desc">
+                                    <h6>{{ books.pageNumber }}  Sayfa</h6>
+                                    <h6>  Basim Yili {{ books.publishDate }} </h6>
+                                </div>
+                                <div class="quantity">
+                                    <a href="#" class="primary-btn pd-cart">Sepete Ekle</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product-tab">
+                        <div class="tab-item">
+                            <ul class="nav" role="tablist">
+                                <li>
+                                    <a class="active" data-toggle="tab" href="#tab-1" role="tab">Detaylar</a>
+                                </li>
+                                <li>
+                                    <a data-toggle="tab" href="#tab-2" role="tab">Yorumlar</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="tab-item-content">
+                            <div class="tab-content">
+                                <div class="tab-pane fade-in active" id="tab-1" role="tabpanel">
+                                    <div class="product-content">
+                                        <div class="row">
+                                            <div class="col-lg-7">
+
+                                                <p>{{ books.detail | safe }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="tab-2" role="tabpanel">
+                                    <br>
+                                    {% if messages %}
+                                        {% for message in messages %}
+                                            <div class="alert alert-{{ message.tags }}" role="alert">
+                                                {{ message }}
+                                            </div>
+                                        {% endfor %}
+                                    {% endif %}
+                                    <form class="form-horizontal" action="/book/addcomment/{{ books.id }}" method="post">
+                                        {% csrf_token %}
+                                        <h3>Yorum Yap</h3>
+                                        <div class="control-group">
+                                            <label class="control-label">Konu <sup>*</sup></label>
+                                            <div class="controls">
+                                                <input class="input" type="text" name="subject" id="id_subject" placeholder="Subject">
+                                            </div>
+                                        </div>
+                                        <div class="control-group">
+                                            <label class="control-label">Yorum<sup>*</sup></label>
+                                            <div class="controls">
+                                                <textarea class="input" name="comment" id="id_comment" placeholder="Your review"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="control-group">
+                                            <label class="control-label">Degerlendirme: <sup>*</sup></label>
+                                            <div class="controls">
+                                                <input type="radio" id="star5" name="rate" value="5"/> <label for="star5"></label>
+                                                <input type="radio" id="star4" name="rate" value="4"/> <label for="star4"></label>
+                                                <input type="radio" id="star3" name="rate" value="3"/> <label for="star3"></label>
+                                                <input type="radio" id="star2" name="rate" value="2"/> <label for="star2"></label>
+                                                <input type="radio" id="star1" name="rate" value="1"/> <label for="star1"></label>
+                                            </div>
+                                        </div>
+                                        {% if user.id is not None %}
+                                            <div class="control-group">
+                                                <div class="controls">
+                                                    <button class="btn-primary">Send Comment</button>
+                                                </div>
+                                            </div>
+                                        {% else %}
+                                            Yorum Eklemek için <a href="/login"> Login</a> olunuz!
+                                        {% endif %}
+                                    </form>
+                                    {% for rs in comments %}
+                                        <table border="1">
+                                            <tr>
+                                                <th> Name  </th>
+                                                <th><div><a href="#"><i class="fa fa-user-o"></i> <b>{{ rs.user.first_name }}</b></a> </div></th>
+                                            </tr>
+                                            <tr>
+                                                <th> Date  </th>
+                                                <th><div><a href="#"><i class="fa fa-user-o"></i> <b>{{ rs.created_at }}</b></a> </div></th>
+                                            </tr>
+                                            <tr>
+                                                <th> Star </th>
+                                                <th><div class="review-rating pull-right">
+                                                    <i class="fa fa-star {% if rs.rate < 1 %}-o empty{% endif %}"></i>
+                                                    <i class="fa fa-star {% if rs.rate < 2 %}-o empty{% endif %}"></i>
+                                                    <i class="fa fa-star {% if rs.rate < 3 %}-o empty{% endif %}"></i>
+                                                    <i class="fa fa-star {% if rs.rate < 4 %}-o empty{% endif %}"></i>
+                                                    <i class="fa fa-star {% if rs.rate < 5 %}-o empty{% endif %}"></i>
+                                                </div></th>
+                                            </tr>
+                                            <tr>
+                                                <th> Comment </th>
+                                                <th>
+                                                    <div class="review-body"> <b>{{ rs.subject }}</b>
+                                                        <p>{{ rs.comment }}</p>
+                                                    </div>
+                                                </th>
+                                            </tr>
+                                        </table>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

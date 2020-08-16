@@ -23,14 +23,17 @@ from home import views
 urlpatterns = [
     path('',include('home.urls')),
     path('home/',include('home.urls')),
-    path('kitaplar/', include('book.urls')),
+    path('book/',include('book.urls')),
     path('admin/', admin.site.urls),
     path('hakkimizda/',views.hakkimizda , name='hakkimizda'),
     path('books/',views.books , name='books'),
     path('ckeditor/', include('ckeditor_uploader.urls')),
     path('anasayfa/',include('home.urls')),
     path('iletisim/', views.iletisim, name='iletisim'),
+    path('search/', views.book_search, name='book_search'),
     path('category/<int:id>/<slug>/', views.category_books, name='category_books'),
+    path('book/<int:id>/<slug>/', views.book_detail, name='book_detail'),
+    path('search_auto/', views.book_search_auto, name="book_search_auto"),
 ]
 if settings.DEBUG: #NEW
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,9 +1,12 @@
+import json
+
+from home.forms import SearchForm
 from django.contrib import messages
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 
 # Create your views here.
-from book.models import Category, Book
+from book.models import Category, Book, Images, Comment
 from home.models import Setting, ContactFormu, ContactFormMessage
 
 
@@ -71,3 +74,54 @@ def books(request):
     return render(request, 'book.html', context)
 
 
+def book_detail(request, id, slug):
+    setting = Setting.objects.get(pk=1)
+    category = Category.objects.all()
+    books = Book.objects.get(pk=id)
+    images = Images.objects.filter(book_id=id)
+    comments = Comment.objects.filter(book_id=id)
+    context = {'books': books,
+               'category': category,
+               'images': images,
+               'setting': setting,
+               'comments': comments,
+
+               }
+    return render(request, 'book_detail.html', context)
+
+
+def book_search(request):
+    setting = Setting.objects.get(pk=1)
+    if request.method == 'POST':  # Check form post
+        form = SearchForm(request.POST)  # Get form data
+        if form.is_valid():
+            category = Category.objects.all()
+            query = form.cleaned_data['query']  # Get form data
+            catid = form.cleaned_data['catid']  # Get form data
+
+            if catid == 0:
+                books = Book.objects.filter(title__icontains=query)  # Select * from Book where title like %query%
+            else:
+                books = Book.objects.filter(title__icontains=query, category_id=catid)
+            # return HttpResponse(Books)
+            context = {'books': books,
+                       'category': category,
+                       'setting': setting,
+                       }
+            return render(request, 'book_search.html', context)
+    return HttpResponseRedirect('/')
+
+def book_search_auto(request):
+    if request.is_ajax():
+        q = request.GET.get('term', '')
+        book = Book.objects.filter(title__icontains=q)
+        results = []
+        for rs in book:
+            book_json = {}
+            book_json = rs.title
+            results.append(book_json)
+        data = json.dumps(results)
+    else:
+        data = 'fail'
+    mimetype = 'application/json'
+    return HttpResponse(data, mimetype)

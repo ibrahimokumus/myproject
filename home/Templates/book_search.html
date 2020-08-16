@@ -1,0 +1,30 @@
+{% extends 'homebase.html' %}
+
+{% block title %} Arama {{ setting.company }} {% endblock %}
+{% block keywords %} {{ setting.keywords }} {% endblock %}
+{% block description %} {{ setting.description }}{% endblock %}
+
+{% block head %}
+    <link rel='shortcut icon' type='image/x-icon' href='{{ setting.icon.url }}' />
+{% endblock %}
+
+{% block content %}
+    <div class="span12">
+        <table cellpadding="3" width="950">
+            <tr>
+                <th>Image</th>
+                <th>Book Name</th>
+                <th>Category</th>
+                <th>Author</th>
+            </tr>
+            {% for rs in books %}
+                <tr>
+                    <td><a href="/book/{{ rs.id }}/{{ rs.slug }}"> <img src="{{ rs.image.url }}" style="width: 100px; height: 100px;" alt=""></a> </td>
+                    <td><h4 class="product-name"><a href="/book/{{ rs.id }}/{{ rs.slug }}">{{ rs.title }}</a></h4></td>
+                    <td><a href="/category/{{ rs.category_id }}/{{ rs.category.slug }}"> {{ rs.category }}</a> </td>
+                    <td><h4>${{ rs.author }}</h4></td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}
