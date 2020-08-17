@@ -1,13 +1,15 @@
 import json
 
-from home.forms import SearchForm
+from django.contrib.auth import authenticate, login, logout
+
+from home.forms import SearchForm, SignUpForm
 from django.contrib import messages
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 
 # Create your views here.
 from book.models import Category, Book, Images, Comment
-from home.models import Setting, ContactFormu, ContactFormMessage
+from home.models import Setting, ContactFormu, ContactFormMessage, UserProfile
 
 
 def index(request):
@@ -125,3 +127,56 @@ def book_search_auto(request):
         data = 'fail'
     mimetype = 'application/json'
     return HttpResponse(data, mimetype)
+
+
+
+def logout_view(request):
+    logout(request)
+    return HttpResponseRedirect('/')
+
+
+def login_view(request):
+    setting = Setting.objects.get(pk=1)
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            # Redirect to a success page.
+            return HttpResponseRedirect('/')
+        else:
+            messages.error(request, "Login Hatası ! Kullanıcı adı yada şifre yanlış")
+            return HttpResponseRedirect('/login')
+    category = Category.objects.all()
+    context = {
+        'category': category,
+        'setting': setting,
+               }
+    return render(request, 'login.html', context)
+
+def signup_view(request):
+    setting = Setting.objects.get(pk=1)
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password1')
+            user = authenticate(request, username=username, password=password)
+            login(request, user)
+            current_user = request.user
+            data = UserProfile()
+            data.user_id = current_user.id
+            data.image = 'images/users/user.png'
+            data.save()
+            messages.success(request, "Hoş geldiniz... Sitemize başarılı bir şekilde üye oldunuz. İyi alışverişler dileriz.")
+            return HttpResponseRedirect('/')
+
+    form = SignUpForm()
+    category = Category.objects.all()
+    context = {'category': category,
+               'form': form,
+               'setting': setting,
+               }
+    return render(request, 'register.html', context)

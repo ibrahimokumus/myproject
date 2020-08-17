@@ -30,15 +30,7 @@
                 </div>
             </div>
             <div class="ht-right">
-                <a href="./login.html" class="login-panel"><i class="fa fa-user"></i>GIRIS</a>
-                <div class="lan-selector">
-                    <select class="language_drop" name="countries" id="countries" style="width:300px;">
-                        <option value='yt' data-image="{%  static 'img/flag-1.jpg'%}" data-imagecss="flag yt"
-                                data-title="English">English</option>
-                        <option value='yu' data-image="{% static 'img/bayrak.jpg' %}" data-imagecss="flag yu"
-                                data-title="Bangladesh">Turkce </option>
-                    </select>
-                </div>
+
                 <div class="top-social">
                     <a href="#"><i class="ti-facebook"></i></a>
                     <a href="#"><i class="ti-twitter-alt"></i></a>
@@ -59,7 +51,7 @@
                     </div>
                 </div>
                 <div class="col-lg-7 col-md-7">
-                     <form action="/search/" class="navbar-search pull-left" method="post">
+                    <form action="/search/" class="navbar-search pull-left" method="post">
                         {% csrf_token %}
                         <input id="query" name="query" class="search-query span2" type="text"
                                placeholder="Enter your keyword">
@@ -81,59 +73,21 @@
                 </div>
                 <div class="col-lg-3 text-right col-md-3">
                     <ul class="nav-right">
-                        <li class="heart-icon">
-                            <a href="#">
-                                <i class="icon_heart_alt"></i>
-                                <span>1</span>
-                            </a>
+                        <li class="dropdown">
+                            {% if user.id is not None %}
+                                <a data-toggle="dropdown" class="dropdown-toggle" href="#">{{ user.first_name }} {{ user.last_name }}<b
+                                        class="caret"></b></a>
+                            {% else %}
+                                <a href="/login">Login / <a href="/signup">Sign Up</a> </a>
+                            {% endif %}
+                            <ul class="dropdown-menu">
+                                <li><a href="/user">My Account</a></li>
+                                <li><a href="/user/orders">My Orders</a></li>
+                                <li><a href="/user/comments">My Comments</a></li>
+                                <li><a href="/user/products">My Products</a></li>
+                                <li><a href="/logout">Logout</a></li>
+                            </ul>
                         </li>
-                        <li class="cart-icon">
-                            <a href="#">
-                                <i class="icon_bag_alt"></i>
-                                <span>3</span>
-                            </a>
-                            <div class="cart-hover">
-                                <div class="select-items">
-                                    <table>
-                                        <tbody>
-                                        <tr>
-                                            <td class="si-pic"><img src="{% static 'img/select-product-1.jpg'%}" alt=""></td>
-                                            <td class="si-text">
-                                                <div class="product-selected">
-
-                                                    <h6>Kabino Bedside Table</h6>
-                                                </div>
-                                            </td>
-                                            <td class="si-close">
-                                                <i class="ti-close"></i>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="si-pic"><img src="{% static 'img/select-product-2.jpg'%}" alt=""></td>
-                                            <td class="si-text">
-                                                <div class="product-selected">
-
-                                                    <h6>Kabino Bedside Table</h6>
-                                                </div>
-                                            </td>
-                                            <td class="si-close">
-                                                <i class="ti-close"></i>
-                                            </td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="select-total">
-                                    <span>total:</span>
-                                    <h5>$120.00</h5>
-                                </div>
-                                <div class="select-button">
-
-                                    <a href="#" class="primary-btn checkout-btn">CHECK OUT</a>
-                                </div>
-                            </div>
-                        </li>
-
                     </ul>
                 </div>
             </div>
