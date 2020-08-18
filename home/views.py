@@ -179,4 +179,4 @@ def signup_view(request):
                'form': form,
                'setting': setting,
                }
-    return render(request, 'register.html', context)
+    return render(request, 'signup.html', context)
