@@ -102,13 +102,12 @@
                     <li><a href="/books">KITAPLAR</a></li>
                     <li><a href="/hakkimizda">HAKKIMIZDA</a></li>
                     <li><a href="/iletisim">Iletisim</a></li>
-                    <li><a href="#">PAGES</a>
-                        <ul class="dropdown">
-                            <li><a href="./check-out.html">Checkout</a></li>
-                            <li><a href="./faq.html">Faq</a></li>
-                            <li><a href="./register.html">Register</a></li>
-                            <li><a href="./login.html">Login</a></li>
-                        </ul>
+                    <li><a href="/order/shopcart/">
+                        <div class="header-btns-icon">
+                            <i class="fa fa-shopping-cart"></i>
+                            <span class="qyt" >{{ request.session.cart_items }}</span>
+                        </div>
+                        Sepetim</a>
                     </li>
                 </ul>
             </nav>

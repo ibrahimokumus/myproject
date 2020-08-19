@@ -10,15 +10,19 @@ from django.shortcuts import render
 # Create your views here.
 from book.models import Category, Book, Images, Comment
 from home.models import Setting, ContactFormu, ContactFormMessage, UserProfile
+from order.models import ShopCart
 
 
-def index(request):
+def index(request,):
+    current_user = request.user
     category = Category.objects.all()
     sliderdata = Book.objects.all()[:2]
     setting = Setting.objects.get(pk=1)
     lastbooks = Book.objects.all().order_by('-id')[:9]
     randombooks = Book.objects.all().order_by('?')[:6]
     randombooks2 = Book.objects.all()[:6]
+    request.session['cart_items'] = ShopCart.objects.filter(user_id=current_user.id).count()
+
     context = {
         'sliderdata':sliderdata,
         'page':'home',
@@ -27,6 +31,7 @@ def index(request):
         'lastbooks': lastbooks,
         'randombooks': randombooks,
         'randombooks2': randombooks2,
+
     }
     return render(request,'index.html',context)
 
@@ -72,7 +77,8 @@ def books(request):
     setting = Setting.objects.get(pk=1)
     category = Category.objects.all()
     books = Book.objects.all()
-    context = {'setting': setting, 'category': category,  'books': books}
+
+    context = {'setting': setting, 'category': category,  'books': books,  }
     return render(request, 'book.html', context)
 
 
@@ -82,11 +88,13 @@ def book_detail(request, id, slug):
     books = Book.objects.get(pk=id)
     images = Images.objects.filter(book_id=id)
     comments = Comment.objects.filter(book_id=id)
+    book = Book.objects.get(pk=id)
     context = {'books': books,
                'category': category,
                'images': images,
                'setting': setting,
                'comments': comments,
+               'book': book,
 
                }
     return render(request, 'book_detail.html', context)

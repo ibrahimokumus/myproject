@@ -1,0 +1,97 @@
+{% extends "homebase.html" %}
+
+{% block title %} Shop Cart {{ setting.company }} {% endblock %}
+{% block keywords %}{{ setting.keywords }} {% endblock %}
+{% block description %}{{ setting.description }}  {% endblock %}
+
+{% block head %}
+    <link rel='shortcut icon' type='image/x-icon' href='{{ setting.icon.url }}' />
+{% endblock %}
+
+
+
+
+{% block content %}
+    <div class="breadcumb_area">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <ol class="breadcrumb d-flex align-items-center">
+                        <li class="breadcrumb-item"><a href="/home">Anasayfa</a></li>
+                        <li class="breadcrumb-item"><a href="">Shop Cart</a></li>
+                    </ol>
+                    <!-- btn -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="single_book_details_area section_padding_0_100">
+
+        <div class="cart_area section_padding_100 clearfix">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="cart-table clearfix">
+                            <h3>Sepet Ürün Listesi</h3>
+                            <table class="table table-responsive">
+                                {% if messages %}
+                                    {% for message in messages %}
+                                        <div class="alert alert-{{ message.tags }}" roles="alert">
+                                            {{ message }}
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                                <thead>
+                                <tr>
+                                    <th>book</th>
+                                    <th>Delete</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for rs in shopcart %}
+                                    <tr>
+                                        <td class="cart_book_img d-flex align-items-center">
+                                            <img src="{{rs.book.image.url}}" alt="book" style="width: 250px; height: 250px;"></a>
+
+
+                                        <td class="qty"><a href="/order/deletefromcart/{{ rs.id }}" class="button" onclick="return confirm('Ürün silinecektir.Emin misniz?')"><button type="delete" class="btn cart-submit d-block">Sil</button></a></td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+
+
+                        <div class="cart-footer d-flex col-12">
+
+                            <div class="back-to-shop w-50">
+
+                                <a href="/books">Kitap Almaya Devam Et</a>
+                            </div>
+
+
+
+                        </div>
+
+                    </div>
+                </div>
+                <div class="cart_area section_padding_100 clearfix">
+                    <div class="container">
+                        <div class="row">
+
+                            <div class="col-12">
+
+                                <a href="/order/orderbook" class="btn karl-checkout-btn">Place Order</a>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+
+    </section>
+{% endblock %}

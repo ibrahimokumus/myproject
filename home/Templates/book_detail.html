@@ -51,7 +51,16 @@
                         </div>
                         <div class="col-lg-6">
                             <div class="product-details">
+                                {% if messages %}
+                                    {% for message in messages %}
+                                        <div class="alert alert-{{ message.tags }}" roles="alert">
+                                            {{ message }}
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+
                                 <div class="pd-title">
+
                                     <span>{{ books.author}}</span>
                                     <h3>{{ books.title }}</h3>
 
@@ -61,7 +70,7 @@
                                     <h6>  Basim Yili {{ books.publishDate }} </h6>
                                 </div>
                                 <div class="quantity">
-                                    <a href="#" class="primary-btn pd-cart">Sepete Ekle</a>
+                                    <a href="/order/addtocart/{{ book.id }}" class="primary-btn pd-cart">Sepete Ekle</a>
                                 </div>
                             </div>
                         </div>

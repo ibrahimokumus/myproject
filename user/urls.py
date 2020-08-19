@@ -9,6 +9,6 @@ urlpatterns = [
     path('password/', views.change_password, name="change_password"),
     path('comments/', views.comments, name="comments"),
     path('deletecomment/<int:id>', views.deletecomment, name="deletecomment"),
-
-
+    path('orders/', views.orders, name="orders"),
+    path('orderdetail/<int:id>', views.orderdetail, name="orderdetail"),
 ]

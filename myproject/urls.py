@@ -25,6 +25,7 @@ urlpatterns = [
     path('home/',include('home.urls')),
     path('book/',include('book.urls')),
     path('user/',include('user.urls')),
+    path('order/',include('order.urls')),
     path('admin/', admin.site.urls),
     path('hakkimizda/',views.hakkimizda , name='hakkimizda'),
     path('books/',views.books , name='books'),
