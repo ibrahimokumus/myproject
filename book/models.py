@@ -65,6 +65,7 @@ class Book(models.Model):
     publishDate = models.CharField(max_length=50)
     type = models.CharField(max_length=50)
     pageNumber = models.CharField(blank=True, max_length=4)
+    stok_durum = models.IntegerField()
 
     def __str__(self):
         return self.title

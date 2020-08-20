@@ -17,7 +17,9 @@ class ShopCart(models.Model):
     def __str__(self):
         return self.title
 
-
+    @property
+    def stok_durum(self):
+         return self.quantity
 
 
 
@@ -41,7 +43,8 @@ class Order(models.Model):
     phone = models.CharField(blank=True,max_length=25)
     address = models.CharField(blank=True,max_length=150)
     city = models.CharField(blank=True,max_length=50)
-    country = models.CharField(blank=True,max_length=50,)
+    country = models.CharField(blank=True,max_length=50)
+    note = models.CharField(blank=True, max_length=250)
     total = models.FloatField()
     status=models.CharField(max_length=10,choices=STATUS,default='New')
     ip = models.CharField(blank=True, max_length=20)

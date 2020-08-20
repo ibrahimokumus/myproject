@@ -86,7 +86,7 @@ def orderbook(request):
     category = Category.objects.all()
     current_user=request.user
     shopcart=ShopCart.objects.filter(user_id=current_user.id)
-
+    total = 0
 
 
     if request.method =='POST':
@@ -99,6 +99,7 @@ def orderbook(request):
             data.address=form.cleaned_data['address']
             data.city=form.cleaned_data['city']
             data.phone=form.cleaned_data['phone']
+            data.total = total
             data.user_id=current_user.id
 
             data.ip=request.META.get('REMOTE_ADDR')
@@ -125,7 +126,7 @@ def orderbook(request):
 
             ShopCart.objects.filter(user_id=current_user.id).delete()
             request.session['cart_items']=0
-            messages.success(request,"Your order has been completed , thank you!" )
+            messages.success(request,"Siparisiniz tamalandı!" )
             return render(request,"Order_Complated.html",{'ordercode':ordercode,'category':category})
         else:
             messages.warning(request,form.errors)

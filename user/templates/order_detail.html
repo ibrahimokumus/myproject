@@ -17,7 +17,7 @@
     <div class="span9">
         <div class="well">
             <div class="section-title">
-                <h3 class="title">User Shipping Information</h3>
+                <h3 class="title">kullanıcı teslimat bilgileri</h3>
             </div>
             <table class="table table-bordered table-condensed">
                 <tr>
@@ -50,11 +50,11 @@
                 </tr>
                 <tr>
                     <th>Date</th>
-                    <td>{{ order.create_at }}</td>
+                    <td>{{ order.created_at }}</td>
                 </tr>
                 <tr>
-                    <th>Shipping Inf</th>
-                    <td>{{ order.order.adminnote }}</td>
+                    <th>Teslim Bilgisi</th>
+                    <td>Kitabı Aldığınız Tarihten 15 Gün Sonra iade etmeniz Gerekir!</td>
                 </tr>
             </table>
 
@@ -73,7 +73,7 @@
                         <td class="text-left"> <a href="/book/{{ order.book_id }}/{{ order.book.slug }}"><img style="height: 100px" src="{{ order.book.image.url }}"> </a> </td>
                         <td class="text-left">{{ order.book.title }}</td>
                         <td class="text-left">{{ order.status }}</td>
-                        <td class="text-left">{{ order.create_at }}</td>
+                        <td class="text-left">{{ order.created_at }}</td>
                     </tr>
 
             </table>
